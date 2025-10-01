@@ -1,0 +1,33 @@
+@import 'maplibre-gl/dist/maplibre-gl.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aid-red disabled:pointer-events-none disabled:opacity-50;
+  }
+  
+  .btn-primary {
+    @apply bg-aid-red text-white hover:bg-aid-red/90;
+  }
+  
+  .btn-secondary {
+    @apply bg-aid-gray text-white hover:bg-aid-gray/90;
+  }
+  
+  .map-container {
+    @apply w-full h-full;
+  }
+}

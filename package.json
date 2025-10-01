@@ -1,0 +1,18 @@
+{
+  "name": "hurricane-aid-map",
+  "version": "1.0.0",
+  "description": "Community Hurricane & Flood Aid Mapping System",
+  "scripts": {
+    "dev": "cd app/web && npm run dev",
+    "build": "cd app/web && npm run build",
+    "preview": "cd app/web && npm run preview",
+    "deploy": "npm run build && gh-pages -d app/web/dist",
+    "db:reset": "supabase db reset",
+    "db:migrate": "supabase migration up",
+    "functions:serve": "supabase functions serve",
+    "start": "supabase start"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  }
+}

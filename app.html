@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hurricane Aid Map</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .header {
+        background: #dc2626;
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      .header h1 {
+        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+      }
+      .header p {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 1.1rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+      .card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+      }
+      .card h3 {
+        color: #dc2626;
+        margin-top: 1rem;
+      }
+      .btn {
+        display: inline-block;
+        background: #dc2626;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        margin-top: 1rem;
+        transition: background-color 0.2s;
+      }
+      .btn:hover {
+        background: #b91c1c;
+      }
+      .status {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+      }
+      .icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+      .description {
+        background: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 1rem;
+        margin: 2rem 0;
+        border-radius: 0 4px 4px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>🚨 Hurricane Aid Map</h1>
+      <p>Community Hurricane & Flood Aid - Requests, Volunteers, and Resources</p>
+    </div>
+
+    <div class="description">
+      <h3>📋 Project Overview</h3>
+      <p>A comprehensive disaster response mapping system that enables residents to submit help requests, allows staff/volunteers to coordinate response efforts, displays real-time resource locations, and sends targeted alerts to affected communities.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="icon">🆘</div>
+        <h3>Request Help</h3>
+        <p>Submit requests for food, water, debris removal, muck-outs, and other emergency assistance.</p>
+        <a href="./app/web/dist/index.html#/submit" class="btn">Request Help</a>
+      </div>
+
+      <div class="card">
+        <div class="icon">🗺️</div>
+        <h3>View Resources Map</h3>
+        <p>Find nearby shelters, food kitchens, supply drops, and other emergency resources in your area.</p>
+        <a href="./app/web/dist/index.html#/map" class="btn">View Map</a>
+      </div>
+
+      <div class="card">
+        <div class="icon">👥</div>
+        <h3>Volunteer Portal</h3>
+        <p>Access the volunteer dashboard to view assigned requests and coordinate response efforts.</p>
+        <a href="./app/web/dist/index.html#/login" class="btn">Volunteer Login</a>
+      </div>
+    </div>
+
+    <div class="status">
+      <h3>🔧 Development Status</h3>
+      <p><strong>Current Phase:</strong> MVP Development</p>
+      <p>Core features implemented include request intake, resource mapping, volunteer coordination, and alert system.</p>
+      
+      <div style="margin-top: 2rem;">
+        <h4>✅ Completed Features:</h4>
+        <ul style="text-align: left; display: inline-block;">
+          <li>Project structure and database schema</li>
+          <li>Interactive map with resource layers</li>
+          <li>Request submission forms</li>
+          <li>Admin dashboard with tabs and filters</li>
+          <li>Radius-based alert system</li>
+          <li>Data export capabilities (CSV/GeoJSON)</li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 2rem;">
+        <h4>🔄 Next Steps:</h4>
+        <ul style="text-align: left; display: inline-block;">
+          <li>Supabase authentication integration</li>
+          <li>Form webhook implementation</li>
+          <li>Photo upload functionality</li>
+          <li>Real-time map updates</li>
+          <li>Mobile optimization</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem; padding: 1rem; background: white; border-radius: 8px;">
+      <h4>🏗️ Technical Architecture</h4>
+      <p><strong>Frontend:</strong> React + Vite + MapLibre + TailwindCSS</p>
+      <p><strong>Backend:</strong> Supabase (PostgreSQL + PostGIS + Edge Functions)</p>
+      <p><strong>Deployment:</strong> GitHub Pages with GitHub Actions CI/CD</p>
+      <p><strong>Features:</strong> Real-time mapping, geocoding, radius alerts, role-based access</p>
+    </div>
+  </body>
+</html>
