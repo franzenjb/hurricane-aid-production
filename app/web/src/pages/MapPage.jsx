@@ -4,9 +4,9 @@ import { supabase } from '../lib/supabase'
 
 export default function MapPage() {
   const [viewState, setViewState] = useState({
-    longitude: -80.1918,
-    latitude: 25.7617, // Miami area default
-    zoom: 10
+    longitude: -82.7037,
+    latitude: 27.8661, // Pinellas County, Florida
+    zoom: 11
   })
   const [resources, setResources] = useState([])
   const [selectedResource, setSelectedResource] = useState(null)
