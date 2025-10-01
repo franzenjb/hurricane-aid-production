@@ -4,21 +4,14 @@ import { MapPin, Users, AlertTriangle } from 'lucide-react'
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
-      <header className="bg-aid-red text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold">Hurricane & Flood Aid Map</h1>
-          <p className="mt-2 text-red-100">Community response coordination platform</p>
-        </div>
-      </header>
-
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Get Help. Give Help. Stay Connected.
+            Pinellas County Emergency Response
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Connect residents, volunteers, and resources during hurricane and flood emergencies.
-            Request assistance, find nearby aid, or volunteer to help your community.
+            Connect Pinellas County residents, volunteers, and resources during hurricane and flood emergencies.
+            Request assistance, find nearby aid, or volunteer to help your community across St. Petersburg, Clearwater, Largo, and surrounding areas.
           </p>
         </div>
 

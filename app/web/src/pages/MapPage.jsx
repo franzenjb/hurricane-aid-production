@@ -26,24 +26,97 @@ export default function MapPage() {
       setResources(data || [])
     } catch (error) {
       console.error('Error fetching resources:', error)
+      // Fallback to mock data when Supabase isn't connected
+      setResources(getMockResources())
     }
+  }
+
+  const getMockResources = () => {
+    return [
+      {
+        id: '1',
+        name: 'St. Petersburg Emergency Shelter',
+        resource_type: 'shelter',
+        status: 'open',
+        hours: '24/7',
+        geom: { coordinates: [-82.6404, 27.7676] }
+      },
+      {
+        id: '2', 
+        name: 'Clearwater Community Kitchen',
+        resource_type: 'kitchen',
+        status: 'open',
+        hours: '8:00 AM - 6:00 PM',
+        geom: { coordinates: [-82.8001, 27.9659] }
+      },
+      {
+        id: '3',
+        name: 'Pinellas Park Equipment Center', 
+        resource_type: 'equipment',
+        status: 'open',
+        hours: '6:00 AM - 8:00 PM',
+        geom: { coordinates: [-82.6995, 27.8428] }
+      },
+      {
+        id: '4',
+        name: 'Largo Water Distribution',
+        resource_type: 'water', 
+        status: 'open',
+        hours: '7:00 AM - 7:00 PM',
+        geom: { coordinates: [-82.7873, 27.9095] }
+      },
+      {
+        id: '5',
+        name: 'Treasure Island Charging Station',
+        resource_type: 'charging',
+        status: 'open', 
+        hours: '24/7',
+        geom: { coordinates: [-82.7693, 27.7664] }
+      },
+      {
+        id: '6',
+        name: 'Dunedin Community WiFi',
+        resource_type: 'wifi',
+        status: 'open',
+        hours: '8:00 AM - 10:00 PM', 
+        geom: { coordinates: [-82.7717, 28.0197] }
+      },
+      {
+        id: '7',
+        name: 'Safety Harbor Food Pantry',
+        resource_type: 'food',
+        status: 'open',
+        hours: '9:00 AM - 5:00 PM',
+        geom: { coordinates: [-82.6940, 28.0042] }
+      },
+      {
+        id: '8',
+        name: 'Seminole High School Shelter',
+        resource_type: 'shelter', 
+        status: 'full',
+        hours: '24/7',
+        geom: { coordinates: [-82.7937, 27.8387] }
+      }
+    ]
   }
 
   const getResourceColor = (type) => {
     switch (type) {
       case 'shelter': return '#dc2626'
       case 'kitchen': return '#059669'
+      case 'food': return '#059669'
       case 'equipment': return '#2563eb'
       case 'water': return '#0891b2'
-      case 'food': return '#ea580c'
+      case 'charging': return '#ea580c'
+      case 'wifi': return '#9333ea'
       default: return '#6b7280'
     }
   }
 
   return (
     <div className="h-screen flex flex-col">
-      <header className="bg-white shadow-sm border-b px-4 py-3 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-gray-900">Emergency Resources Map</h1>
+      <div className="bg-white shadow-sm border-b px-4 py-3 flex items-center justify-between">
+        <h1 className="text-xl font-semibold text-gray-900">Pinellas County Emergency Resources</h1>
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2 text-sm">
             <div className="w-3 h-3 bg-red-600 rounded-full"></div>
@@ -57,8 +130,16 @@ export default function MapPage() {
             <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
             <span>Equipment</span>
           </div>
+          <div className="flex items-center space-x-2 text-sm">
+            <div className="w-3 h-3 bg-cyan-600 rounded-full"></div>
+            <span>Water</span>
+          </div>
+          <div className="flex items-center space-x-2 text-sm">
+            <div className="w-3 h-3 bg-orange-600 rounded-full"></div>
+            <span>Charging</span>
+          </div>
         </div>
-      </header>
+      </div>
 
       <div className="flex-1 relative">
         <Map

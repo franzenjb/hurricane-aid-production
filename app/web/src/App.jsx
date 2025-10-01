@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import Navigation from './components/Navigation'
 import LandingPage from './pages/LandingPage'
 import MapPage from './pages/MapPage'
 import Dashboard from './pages/Dashboard'
@@ -8,6 +9,7 @@ import LoginPage from './pages/LoginPage'
 function App() {
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navigation />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/map" element={<MapPage />} />

@@ -27,17 +27,17 @@ export default function SubmitPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-aid-red text-white">
+      <div className="bg-white border-b">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center space-x-3">
-            <AlertTriangle className="h-8 w-8" />
+            <AlertTriangle className="h-8 w-8 text-aid-red" />
             <div>
-              <h1 className="text-2xl font-bold">Request Emergency Help</h1>
-              <p className="text-red-100">Fill out this form to request assistance in your area</p>
+              <h1 className="text-2xl font-bold text-gray-900">Request Emergency Help</h1>
+              <p className="text-gray-600">Fill out this form to request assistance in Pinellas County</p>
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-6">
