@@ -13,13 +13,20 @@ export default function Navigation() {
   ]
 
   return (
-    <nav className="bg-aid-red text-white shadow-lg">
+    <nav className="bg-relief-navy text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 font-bold text-lg">
-            <span>🚨</span>
-            <span>Pinellas County Emergency</span>
+          <Link to="/" className="flex items-center space-x-3">
+            <img 
+              src="/show-up-logo.webp" 
+              alt="Show Up Relief Alliance" 
+              className="h-8 w-auto"
+            />
+            <div className="text-sm">
+              <div className="font-bold">Pinellas County</div>
+              <div className="text-xs text-blue-200">Emergency Response</div>
+            </div>
           </Link>
 
           {/* Navigation Links */}
@@ -34,8 +41,8 @@ export default function Navigation() {
                   to={item.path}
                   className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-red-700 text-white'
-                      : 'text-red-100 hover:bg-red-600 hover:text-white'
+                      ? 'bg-relief-blue text-white'
+                      : 'text-blue-100 hover:bg-relief-blue hover:text-white'
                   }`}
                 >
                   <Icon className="h-4 w-4" />

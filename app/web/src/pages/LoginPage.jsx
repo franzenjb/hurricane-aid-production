@@ -22,7 +22,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <Shield className="h-12 w-12 text-aid-red" />
+          <Shield className="h-12 w-12 text-relief-blue" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
           Emergency Response Login
@@ -48,7 +48,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-aid-red focus:border-aid-red sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-relief-blue focus:border-relief-blue sm:text-sm"
                   placeholder="Enter your email"
                 />
               </div>
@@ -58,7 +58,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-aid-red hover:bg-aid-red/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-aid-red disabled:opacity-50"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-relief-blue hover:bg-relief-blue/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-relief-blue disabled:opacity-50"
               >
                 {isLoading ? 'Sending...' : 'Send Magic Link'}
               </button>
@@ -89,7 +89,7 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <Link
               to="/"
-              className="text-sm text-aid-red hover:text-aid-red/80"
+              className="text-sm text-relief-blue hover:text-relief-blue/80"
             >
               ← Back to home
             </Link>

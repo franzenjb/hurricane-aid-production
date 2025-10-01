@@ -30,7 +30,7 @@ export default function SubmitPage() {
       <div className="bg-white border-b">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center space-x-3">
-            <AlertTriangle className="h-8 w-8 text-aid-red" />
+            <AlertTriangle className="h-8 w-8 text-relief-red" />
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Request Emergency Help</h1>
               <p className="text-gray-600">Fill out this form to request assistance in Pinellas County</p>
@@ -52,7 +52,7 @@ export default function SubmitPage() {
                 value={formData.resident_name}
                 onChange={handleChange}
                 required
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-aid-red focus:ring-aid-red"
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-relief-blue focus:ring-relief-blue"
                 placeholder="Enter your full name"
               />
             </div>
@@ -67,7 +67,7 @@ export default function SubmitPage() {
                 value={formData.phone}
                 onChange={handleChange}
                 required
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-aid-red focus:ring-aid-red"
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-relief-blue focus:ring-relief-blue"
                 placeholder="(555) 123-4567"
               />
             </div>
@@ -115,7 +115,7 @@ export default function SubmitPage() {
                 value={formData.need_type}
                 onChange={handleChange}
                 required
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-aid-red focus:ring-aid-red"
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-relief-blue focus:ring-relief-blue"
               >
                 <option value="food">Food/Water</option>
                 <option value="muck_out">Muck Out</option>
@@ -134,7 +134,7 @@ export default function SubmitPage() {
                 name="priority"
                 value={formData.priority}
                 onChange={handleChange}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-aid-red focus:ring-aid-red"
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-relief-blue focus:ring-relief-blue"
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>

@@ -16,15 +16,15 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aid-red disabled:pointer-events-none disabled:opacity-50;
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-relief-blue disabled:pointer-events-none disabled:opacity-50;
   }
   
   .btn-primary {
-    @apply bg-aid-red text-white hover:bg-aid-red/90;
+    @apply bg-relief-blue text-white hover:bg-relief-blue/90;
   }
   
   .btn-secondary {
-    @apply bg-aid-gray text-white hover:bg-aid-gray/90;
+    @apply bg-relief-gray text-white hover:bg-relief-gray/90;
   }
   
   .map-container {

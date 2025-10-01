@@ -17,7 +17,7 @@ export default function LandingPage() {
 
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           <div className="text-center p-6 bg-gray-50 rounded-lg">
-            <AlertTriangle className="h-12 w-12 text-aid-red mx-auto mb-4" />
+            <AlertTriangle className="h-12 w-12 text-relief-red mx-auto mb-4" />
             <h3 className="text-xl font-semibold mb-2">Request Help</h3>
             <p className="text-gray-600 mb-4">
               Need food, water, debris removal, or other assistance? Submit a request and connect with volunteers.
@@ -28,7 +28,7 @@ export default function LandingPage() {
           </div>
 
           <div className="text-center p-6 bg-gray-50 rounded-lg">
-            <MapPin className="h-12 w-12 text-aid-red mx-auto mb-4" />
+            <MapPin className="h-12 w-12 text-relief-blue mx-auto mb-4" />
             <h3 className="text-xl font-semibold mb-2">Find Nearby Aid</h3>
             <p className="text-gray-600 mb-4">
               Locate open shelters, food kitchens, supply drops, and other emergency resources near you.
@@ -39,7 +39,7 @@ export default function LandingPage() {
           </div>
 
           <div className="text-center p-6 bg-gray-50 rounded-lg">
-            <Users className="h-12 w-12 text-aid-red mx-auto mb-4" />
+            <Users className="h-12 w-12 text-relief-blue mx-auto mb-4" />
             <h3 className="text-xl font-semibold mb-2">Volunteer</h3>
             <p className="text-gray-600 mb-4">
               Help your neighbors by volunteering for muck-outs, debris removal, and other recovery efforts.
@@ -51,7 +51,7 @@ export default function LandingPage() {
         </div>
 
         <div className="text-center">
-          <Link to="/login" className="text-aid-red hover:text-aid-red/80 font-medium">
+          <Link to="/login" className="text-relief-blue hover:text-relief-blue/80 font-medium">
             Emergency Response Staff Login →
           </Link>
         </div>
