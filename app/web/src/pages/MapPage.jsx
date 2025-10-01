@@ -12,6 +12,9 @@ export default function MapPage() {
   const [selectedResource, setSelectedResource] = useState(null)
 
   useEffect(() => {
+    // Load mock data immediately for demo
+    setResources(getMockResources())
+    // Also try to fetch from Supabase in case it's connected
     fetchPublicResources()
   }, [])
 
@@ -145,8 +148,26 @@ export default function MapPage() {
         <Map
           {...viewState}
           onMove={evt => setViewState(evt.viewState)}
+          onError={(error) => console.error('Map error:', error)}
           style={{width: '100%', height: '100%'}}
-          mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+          mapStyle={{
+            version: 8,
+            sources: {
+              osm: {
+                type: 'raster',
+                tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                tileSize: 256,
+                attribution: '© OpenStreetMap contributors'
+              }
+            },
+            layers: [
+              {
+                id: 'osm',
+                type: 'raster',
+                source: 'osm'
+              }
+            ]
+          }}
         >
           {resources.map((resource) => {
             if (!resource.geom?.coordinates) return null
