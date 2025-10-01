@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Map, { Source, Layer, Marker, Popup } from 'react-map-gl/maplibre'
 import { supabase } from '../lib/supabase'
+import { mockResources } from '../lib/mockData'
 
 export default function MapPage() {
   const [viewState, setViewState] = useState({
@@ -39,72 +40,21 @@ export default function MapPage() {
   }
 
   const getMockResources = () => {
-    return [
-      {
-        id: '1',
-        name: 'St. Petersburg Emergency Shelter',
-        resource_type: 'shelter',
-        status: 'open',
-        hours: '24/7',
-        geom: { coordinates: [-82.6404, 27.7676] }
-      },
-      {
-        id: '2', 
-        name: 'Clearwater Community Kitchen',
-        resource_type: 'kitchen',
-        status: 'open',
-        hours: '8:00 AM - 6:00 PM',
-        geom: { coordinates: [-82.8001, 27.9659] }
-      },
-      {
-        id: '3',
-        name: 'Pinellas Park Equipment Center', 
-        resource_type: 'equipment',
-        status: 'open',
-        hours: '6:00 AM - 8:00 PM',
-        geom: { coordinates: [-82.6995, 27.8428] }
-      },
-      {
-        id: '4',
-        name: 'Largo Water Distribution',
-        resource_type: 'water', 
-        status: 'open',
-        hours: '7:00 AM - 7:00 PM',
-        geom: { coordinates: [-82.7873, 27.9095] }
-      },
-      {
-        id: '5',
-        name: 'Treasure Island Charging Station',
-        resource_type: 'charging',
-        status: 'open', 
-        hours: '24/7',
-        geom: { coordinates: [-82.7693, 27.7664] }
-      },
-      {
-        id: '6',
-        name: 'Dunedin Community WiFi',
-        resource_type: 'wifi',
-        status: 'open',
-        hours: '8:00 AM - 10:00 PM', 
-        geom: { coordinates: [-82.7717, 28.0197] }
-      },
-      {
-        id: '7',
-        name: 'Safety Harbor Food Pantry',
-        resource_type: 'food',
-        status: 'open',
-        hours: '9:00 AM - 5:00 PM',
-        geom: { coordinates: [-82.6940, 28.0042] }
-      },
-      {
-        id: '8',
-        name: 'Seminole High School Shelter',
-        resource_type: 'shelter', 
-        status: 'full',
-        hours: '24/7',
-        geom: { coordinates: [-82.7937, 27.8387] }
+    // Convert mockResources to map format
+    return mockResources.map(resource => ({
+      ...resource,
+      geom: { 
+        coordinates: [
+          // Coordinates for Pinellas County locations
+          resource.id === '1' ? [-82.6404, 27.7676] : // St. Petersburg
+          resource.id === '2' ? [-82.8001, 27.9659] : // Clearwater  
+          resource.id === '3' ? [-82.6995, 27.8428] : // Pinellas Park
+          resource.id === '4' ? [-82.7873, 27.9095] : // Largo
+          resource.id === '5' ? [-82.7693, 27.7664] : // Treasure Island
+          [-82.7937, 27.8387] // Seminole
+        ]
       }
-    ]
+    }))
   }
 
   const getResourceColor = (type) => {
