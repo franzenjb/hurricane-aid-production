@@ -12,13 +12,17 @@ export default function MapPage() {
   const [selectedResource, setSelectedResource] = useState(null)
 
   useEffect(() => {
-    // Load mock data immediately for demo
-    setResources(getMockResources())
-    // Also try to fetch from Supabase in case it's connected
+    // Load demo data
     fetchPublicResources()
   }, [])
 
   const fetchPublicResources = async () => {
+    // Skip Supabase for demo - use mock data directly
+    console.log('Using mock data for demo')
+    setResources(getMockResources())
+    
+    // Uncomment below when Supabase is properly configured:
+    /*
     try {
       const { data, error } = await supabase
         .from('resources')
@@ -29,9 +33,9 @@ export default function MapPage() {
       setResources(data || [])
     } catch (error) {
       console.error('Error fetching resources:', error)
-      // Fallback to mock data when Supabase isn't connected
       setResources(getMockResources())
     }
+    */
   }
 
   const getMockResources = () => {
