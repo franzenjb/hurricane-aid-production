@@ -153,6 +153,7 @@ export const mockVolunteers = [
 ]
 
 export const mockResources = [
+  // Shelters
   {
     id: '1',
     name: 'St. Petersburg Emergency Shelter',
@@ -162,61 +163,16 @@ export const mockResources = [
     capacity: 300,
     current_occupancy: 180,
     contact_phone: '(727) 555-0100',
-    address: 'Downtown St. Petersburg',
+    address: '400 1st Ave N, St. Petersburg, FL 33701',
     details: {
       pet_friendly: true,
       wheelchair_accessible: true,
-      registration_required: false
+      registration_required: false,
+      services: ['cots', 'meals', 'showers', 'childcare']
     }
   },
   {
     id: '2',
-    name: 'Clearwater Community Kitchen',
-    resource_type: 'kitchen',
-    status: 'open',
-    hours: '8:00 AM - 6:00 PM',
-    capacity: 400,
-    current_occupancy: 250,
-    contact_phone: '(727) 555-0101',
-    address: 'Clearwater Community Center',
-    details: {
-      dietary_restrictions: ['vegetarian', 'gluten_free'],
-      takeout_available: true
-    }
-  },
-  {
-    id: '3',
-    name: 'Pinellas Park Equipment Center',
-    resource_type: 'equipment',
-    status: 'open',
-    hours: '6:00 AM - 8:00 PM',
-    capacity: null,
-    current_occupancy: null,
-    contact_phone: '(727) 555-0102',
-    address: 'Pinellas Park Municipal Building',
-    details: {
-      available_equipment: ['generators', 'chainsaws', 'pumps', 'tarps'],
-      id_required: true
-    }
-  },
-  {
-    id: '4',
-    name: 'Largo Water Distribution',
-    resource_type: 'water',
-    status: 'open',
-    hours: '7:00 AM - 7:00 PM',
-    capacity: null,
-    current_occupancy: null,
-    contact_phone: '(727) 555-0103',
-    address: 'Largo Central Park',
-    details: {
-      bottled_water: true,
-      limit_per_family: '2 cases',
-      drive_through: true
-    }
-  },
-  {
-    id: '5',
     name: 'Seminole High School Shelter',
     resource_type: 'shelter',
     status: 'full',
@@ -224,11 +180,220 @@ export const mockResources = [
     capacity: 200,
     current_occupancy: 200,
     contact_phone: '(727) 555-0106',
-    address: 'Seminole High School Gymnasium',
+    address: '8701 131st St N, Seminole, FL 33776',
     details: {
       pet_friendly: false,
       wheelchair_accessible: true,
-      registration_required: true
+      registration_required: true,
+      services: ['cots', 'meals']
+    }
+  },
+  {
+    id: '3',
+    name: 'Clearwater Red Cross Shelter',
+    resource_type: 'shelter',
+    status: 'open',
+    hours: '24/7',
+    capacity: 250,
+    current_occupancy: 85,
+    contact_phone: '(727) 555-0107',
+    address: '1501 N Belcher Rd, Clearwater, FL 33765',
+    details: {
+      pet_friendly: true,
+      wheelchair_accessible: true,
+      registration_required: false,
+      services: ['cots', 'meals', 'medical', 'mental_health']
+    }
+  },
+
+  // Food Distribution
+  {
+    id: '4',
+    name: 'Clearwater Community Kitchen',
+    resource_type: 'food',
+    status: 'open',
+    hours: '8:00 AM - 6:00 PM',
+    capacity: 400,
+    current_occupancy: 250,
+    contact_phone: '(727) 555-0101',
+    address: '1040 Court St, Clearwater, FL 33756',
+    details: {
+      dietary_restrictions: ['vegetarian', 'gluten_free'],
+      takeout_available: true,
+      services: ['hot_meals', 'groceries', 'baby_formula']
+    }
+  },
+  {
+    id: '5',
+    name: 'St. Pete Food Bank',
+    resource_type: 'food',
+    status: 'open',
+    hours: '9:00 AM - 5:00 PM',
+    capacity: null,
+    current_occupancy: null,
+    contact_phone: '(727) 555-0108',
+    address: '1501 16th St S, St. Petersburg, FL 33705',
+    details: {
+      services: ['groceries', 'fresh_produce', 'canned_goods'],
+      drive_through: true,
+      id_required: false
+    }
+  },
+  {
+    id: '6',
+    name: 'Largo Emergency Food Distribution',
+    resource_type: 'food',
+    status: 'open',
+    hours: '10:00 AM - 4:00 PM',
+    capacity: null,
+    current_occupancy: null,
+    contact_phone: '(727) 555-0109',
+    address: '351 Highland Ave NE, Largo, FL 33770',
+    details: {
+      services: ['groceries', 'hot_meals', 'baby_supplies'],
+      limit_per_family: '1 bag per family',
+      volunteer_required: false
+    }
+  },
+
+  // Water Distribution
+  {
+    id: '7',
+    name: 'Largo Water Distribution',
+    resource_type: 'water',
+    status: 'open',
+    hours: '7:00 AM - 7:00 PM',
+    capacity: null,
+    current_occupancy: null,
+    contact_phone: '(727) 555-0103',
+    address: '400 Alt Keene Rd, Largo, FL 33771',
+    details: {
+      bottled_water: true,
+      limit_per_family: '2 cases',
+      drive_through: true,
+      services: ['bottled_water', 'ice']
+    }
+  },
+  {
+    id: '8',
+    name: 'Dunedin Water Point',
+    resource_type: 'water',
+    status: 'open',
+    hours: '8:00 AM - 6:00 PM',
+    capacity: null,
+    current_occupancy: null,
+    contact_phone: '(727) 555-0110',
+    address: '1920 Pinehurst Rd, Dunedin, FL 34698',
+    details: {
+      bottled_water: true,
+      limit_per_family: '1 case per person',
+      drive_through: true,
+      services: ['bottled_water']
+    }
+  },
+
+  // Equipment & Supplies
+  {
+    id: '9',
+    name: 'Pinellas Park Equipment Center',
+    resource_type: 'equipment',
+    status: 'open',
+    hours: '6:00 AM - 8:00 PM',
+    capacity: null,
+    current_occupancy: null,
+    contact_phone: '(727) 555-0102',
+    address: '7330 49th St N, Pinellas Park, FL 33781',
+    details: {
+      available_equipment: ['generators', 'chainsaws', 'pumps', 'tarps'],
+      id_required: true,
+      deposit_required: true,
+      services: ['tool_lending', 'equipment_repair']
+    }
+  },
+  {
+    id: '10',
+    name: 'Belcher Elementary Supply Drop',
+    resource_type: 'equipment',
+    status: 'open',
+    hours: '9:00 AM - 5:00 PM',
+    capacity: null,
+    current_occupancy: null,
+    contact_phone: '(727) 555-0111',
+    address: '1600 Union St, Clearwater, FL 33763',
+    details: {
+      available_equipment: ['cleaning_supplies', 'tarps', 'bleach', 'masks'],
+      id_required: false,
+      services: ['cleaning_kits', 'personal_hygiene']
+    }
+  },
+
+  // Charging Stations
+  {
+    id: '11',
+    name: 'Indian Rocks Beach Charging Station',
+    resource_type: 'charging',
+    status: 'open',
+    hours: '24/7',
+    capacity: 20,
+    current_occupancy: 8,
+    contact_phone: '(727) 555-0112',
+    address: '1507 Bay Palm Blvd, Indian Rocks Beach, FL 33785',
+    details: {
+      device_types: ['phone', 'tablet', 'laptop'],
+      wifi_available: true,
+      services: ['device_charging', 'wifi']
+    }
+  },
+  {
+    id: '12',
+    name: 'Safety Harbor Library Charging',
+    resource_type: 'charging',
+    status: 'open',
+    hours: '8:00 AM - 8:00 PM',
+    capacity: 30,
+    current_occupancy: 12,
+    contact_phone: '(727) 555-0113',
+    address: '101 2nd St N, Safety Harbor, FL 34695',
+    details: {
+      device_types: ['phone', 'tablet', 'laptop'],
+      wifi_available: true,
+      services: ['device_charging', 'wifi', 'computer_access']
+    }
+  },
+
+  // Medical
+  {
+    id: '13',
+    name: 'Mobile Medical Unit - Tarpon Springs',
+    resource_type: 'medical',
+    status: 'open',
+    hours: '9:00 AM - 5:00 PM',
+    capacity: null,
+    current_occupancy: null,
+    contact_phone: '(727) 555-0114',
+    address: '324 Pine St, Tarpon Springs, FL 34689',
+    details: {
+      services: ['first_aid', 'prescription_refills', 'basic_checkups'],
+      insurance_required: false,
+      appointment_needed: false
+    }
+  },
+
+  // Pet Services
+  {
+    id: '14',
+    name: 'Emergency Pet Shelter',
+    resource_type: 'pet_shelter',
+    status: 'open',
+    hours: '24/7',
+    capacity: 50,
+    current_occupancy: 23,
+    contact_phone: '(727) 555-0115',
+    address: '12450 Ulmerton Rd, Largo, FL 33774',
+    details: {
+      pet_types: ['dogs', 'cats', 'small_animals'],
+      services: ['temporary_boarding', 'veterinary_care', 'pet_supplies'],
+      vaccination_required: true
     }
   }
 ]

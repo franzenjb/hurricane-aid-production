@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Map, { Source, Layer, Marker, Popup } from 'react-map-gl/maplibre'
 import { supabase } from '../lib/supabase'
 import { mockResources } from '../lib/mockData'
+import { Edit, Square, Trash2 } from 'lucide-react'
 
 export default function MapPage() {
   const [viewState, setViewState] = useState({
@@ -11,6 +12,10 @@ export default function MapPage() {
   })
   const [resources, setResources] = useState([])
   const [selectedResource, setSelectedResource] = useState(null)
+  const [drawingMode, setDrawingMode] = useState(false)
+  const [polygons, setPolygons] = useState([])
+  const [currentPolygon, setCurrentPolygon] = useState(null)
+  const mapRef = useRef(null)
 
   useEffect(() => {
     // Load demo data
@@ -40,68 +45,203 @@ export default function MapPage() {
   }
 
   const getMockResources = () => {
-    // Convert mockResources to map format
+    // Convert mockResources to map format with precise coordinates
+    const resourceCoordinates = {
+      '1': [-82.6404, 27.7676], // St. Petersburg Emergency Shelter
+      '2': [-82.7937, 27.8387], // Seminole High School Shelter
+      '3': [-82.8001, 27.9659], // Clearwater Red Cross Shelter
+      '4': [-82.8001, 27.9659], // Clearwater Community Kitchen
+      '5': [-82.6404, 27.7376], // St. Pete Food Bank
+      '6': [-82.7873, 27.9095], // Largo Emergency Food Distribution
+      '7': [-82.7873, 27.9095], // Largo Water Distribution
+      '8': [-82.7726, 28.0197], // Dunedin Water Point
+      '9': [-82.6995, 27.8428], // Pinellas Park Equipment Center
+      '10': [-82.8001, 27.9459], // Belcher Elementary Supply Drop
+      '11': [-82.8493, 27.8881], // Indian Rocks Beach Charging Station
+      '12': [-82.6926, 27.7981], // Safety Harbor Library Charging
+      '13': [-82.7568, 28.1461], // Mobile Medical Unit - Tarpon Springs
+      '14': [-82.7873, 27.8895] // Emergency Pet Shelter
+    }
+    
     return mockResources.map(resource => ({
       ...resource,
       geom: { 
-        coordinates: [
-          // Coordinates for Pinellas County locations
-          resource.id === '1' ? [-82.6404, 27.7676] : // St. Petersburg
-          resource.id === '2' ? [-82.8001, 27.9659] : // Clearwater  
-          resource.id === '3' ? [-82.6995, 27.8428] : // Pinellas Park
-          resource.id === '4' ? [-82.7873, 27.9095] : // Largo
-          resource.id === '5' ? [-82.7693, 27.7664] : // Treasure Island
-          [-82.7937, 27.8387] // Seminole
-        ]
+        coordinates: resourceCoordinates[resource.id] || [-82.7037, 27.8661]
       }
     }))
   }
 
   const getResourceColor = (type) => {
     switch (type) {
-      case 'shelter': return '#dc2626'
-      case 'kitchen': return '#059669'
-      case 'food': return '#059669'
-      case 'equipment': return '#2563eb'
-      case 'water': return '#0891b2'
-      case 'charging': return '#ea580c'
-      case 'wifi': return '#9333ea'
-      default: return '#6b7280'
+      case 'shelter': return '#dc2626' // Red
+      case 'food': return '#059669' // Green
+      case 'water': return '#0891b2' // Cyan
+      case 'equipment': return '#2563eb' // Blue
+      case 'charging': return '#ea580c' // Orange
+      case 'medical': return '#7c3aed' // Purple
+      case 'pet_shelter': return '#db2777' // Pink
+      default: return '#6b7280' // Gray
+    }
+  }
+
+  const handleMapClick = (event) => {
+    if (!drawingMode) return
+    
+    const { lng, lat } = event.lngLat
+    
+    if (!currentPolygon) {
+      // Start new polygon
+      setCurrentPolygon({
+        id: Date.now(),
+        type: 'flood_zone',
+        coordinates: [[lng, lat]],
+        name: `Area ${polygons.length + 1}`
+      })
+    } else {
+      // Add point to current polygon
+      setCurrentPolygon(prev => ({
+        ...prev,
+        coordinates: [...prev.coordinates, [lng, lat]]
+      }))
+    }
+  }
+
+  const finishPolygon = () => {
+    if (currentPolygon && currentPolygon.coordinates.length >= 3) {
+      // Close the polygon by adding the first point at the end
+      const closedPolygon = {
+        ...currentPolygon,
+        coordinates: [...currentPolygon.coordinates, currentPolygon.coordinates[0]]
+      }
+      setPolygons(prev => [...prev, closedPolygon])
+      setCurrentPolygon(null)
+      setDrawingMode(false)
+    }
+  }
+
+  const cancelDrawing = () => {
+    setCurrentPolygon(null)
+    setDrawingMode(false)
+  }
+
+  const clearAllPolygons = () => {
+    setPolygons([])
+    setCurrentPolygon(null)
+    setDrawingMode(false)
+  }
+
+  const getPolygonGeoJSON = () => {
+    const features = polygons.map(polygon => ({
+      type: 'Feature',
+      geometry: {
+        type: 'Polygon',
+        coordinates: [polygon.coordinates]
+      },
+      properties: {
+        id: polygon.id,
+        name: polygon.name,
+        type: polygon.type
+      }
+    }))
+    
+    if (currentPolygon && currentPolygon.coordinates.length > 2) {
+      features.push({
+        type: 'Feature',
+        geometry: {
+          type: 'Polygon',
+          coordinates: [currentPolygon.coordinates]
+        },
+        properties: {
+          id: 'current',
+          name: 'Drawing...',
+          type: 'current'
+        }
+      })
+    }
+    
+    return {
+      type: 'FeatureCollection',
+      features
     }
   }
 
   return (
     <div className="h-screen flex flex-col">
-      <div className="bg-white shadow-sm border-b px-4 py-3 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-gray-900">Pinellas County Emergency Resources</h1>
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2 text-sm">
+      <div className="bg-white shadow-sm border-b px-4 py-3">
+        <div className="flex items-center justify-between mb-3">
+          <h1 className="text-xl font-semibold text-gray-900">Pinellas County Emergency Resources</h1>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setDrawingMode(!drawingMode)}
+              className={`px-3 py-1 rounded text-sm font-medium flex items-center space-x-1 ${
+                drawingMode ? 'bg-relief-red text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <Square className="h-4 w-4" />
+              <span>{drawingMode ? 'Cancel Drawing' : 'Draw Area'}</span>
+            </button>
+            {currentPolygon && (
+              <button
+                onClick={finishPolygon}
+                className="px-3 py-1 bg-relief-blue text-white rounded text-sm font-medium hover:bg-relief-blue/90"
+              >
+                Finish Area
+              </button>
+            )}
+            {polygons.length > 0 && (
+              <button
+                onClick={clearAllPolygons}
+                className="px-3 py-1 bg-gray-500 text-white rounded text-sm font-medium hover:bg-gray-600 flex items-center space-x-1"
+              >
+                <Trash2 className="h-4 w-4" />
+                <span>Clear All</span>
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="flex items-center space-x-3 text-xs">
+          <div className="flex items-center space-x-1">
             <div className="w-3 h-3 bg-red-600 rounded-full"></div>
             <span>Shelters</span>
           </div>
-          <div className="flex items-center space-x-2 text-sm">
+          <div className="flex items-center space-x-1">
             <div className="w-3 h-3 bg-green-600 rounded-full"></div>
             <span>Food</span>
           </div>
-          <div className="flex items-center space-x-2 text-sm">
-            <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
-            <span>Equipment</span>
-          </div>
-          <div className="flex items-center space-x-2 text-sm">
+          <div className="flex items-center space-x-1">
             <div className="w-3 h-3 bg-cyan-600 rounded-full"></div>
             <span>Water</span>
           </div>
-          <div className="flex items-center space-x-2 text-sm">
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
+            <span>Equipment</span>
+          </div>
+          <div className="flex items-center space-x-1">
             <div className="w-3 h-3 bg-orange-600 rounded-full"></div>
             <span>Charging</span>
           </div>
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 bg-purple-600 rounded-full"></div>
+            <span>Medical</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 bg-pink-600 rounded-full"></div>
+            <span>Pets</span>
+          </div>
         </div>
+        {drawingMode && (
+          <div className="bg-blue-50 border border-blue-200 rounded p-2 text-sm text-blue-800 mt-2">
+            <strong>Drawing Mode:</strong> Click on the map to add points for flood zones or focus areas. Click "Finish Area" when done.
+          </div>
+        )}
       </div>
 
       <div className="flex-1 relative">
         <Map
+          ref={mapRef}
           {...viewState}
           onMove={evt => setViewState(evt.viewState)}
+          onClick={handleMapClick}
           onError={(error) => console.error('Map error:', error)}
           style={{width: '100%', height: '100%'}}
           mapStyle={{
@@ -123,6 +263,38 @@ export default function MapPage() {
             ]
           }}
         >
+          {/* Polygon layers for drawn areas */}
+          {(polygons.length > 0 || currentPolygon) && (
+            <Source id="polygons" type="geojson" data={getPolygonGeoJSON()}>
+              <Layer
+                id="polygon-fill"
+                type="fill"
+                paint={{
+                  'fill-color': [
+                    'case',
+                    ['==', ['get', 'type'], 'current'],
+                    '#3b82f6',
+                    '#ef4444'
+                  ],
+                  'fill-opacity': 0.3
+                }}
+              />
+              <Layer
+                id="polygon-stroke"
+                type="line"
+                paint={{
+                  'line-color': [
+                    'case',
+                    ['==', ['get', 'type'], 'current'],
+                    '#1d4ed8',
+                    '#dc2626'
+                  ],
+                  'line-width': 2
+                }}
+              />
+            </Source>
+          )}
+
           {resources.map((resource) => {
             if (!resource.geom?.coordinates) return null
             

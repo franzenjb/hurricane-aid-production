@@ -18,9 +18,11 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <div className="h-8 w-32 bg-relief-blue rounded text-white flex items-center justify-center text-sm font-bold">
-              Show Up
-            </div>
+            <img 
+              src="./logo.png" 
+              alt="Show Up Relief Alliance" 
+              className="h-8 w-auto"
+            />
             <div className="text-sm">
               <div className="font-bold">Pinellas County</div>
               <div className="text-xs text-blue-200">Emergency Response</div>
