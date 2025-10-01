@@ -128,6 +128,9 @@ export default function MapPage() {
             
             const [lng, lat] = resource.geom.coordinates
             
+            // Skip invalid coordinates
+            if (isNaN(lng) || isNaN(lat)) return null
+            
             return (
               <Marker
                 key={resource.id}
@@ -147,7 +150,7 @@ export default function MapPage() {
             )
           })}
 
-          {selectedResource && (
+          {selectedResource && selectedResource.geom?.coordinates && (
             <Popup
               longitude={selectedResource.geom.coordinates[0]}
               latitude={selectedResource.geom.coordinates[1]}
