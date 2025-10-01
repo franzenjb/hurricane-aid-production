@@ -19,7 +19,7 @@ export default function Navigation() {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
             <img 
-              src="/show-up-logo.webp" 
+              src="./show-up-logo.webp" 
               alt="Show Up Relief Alliance" 
               className="h-8 w-auto"
             />
