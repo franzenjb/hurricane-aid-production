@@ -10,7 +10,7 @@ const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter basename="/hurricane-aid-map">
+      <BrowserRouter basename="/hurricane-aid-production">
         <App />
       </BrowserRouter>
     </QueryClientProvider>
