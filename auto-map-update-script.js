@@ -37,13 +37,51 @@ function updateEmergencyMap() {
   try {
     console.log('Starting emergency map update...');
     
-    // Get the spreadsheet data
+    // Get the spreadsheet and list all available sheets
     const spreadsheet = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
-    const requestsSheet = spreadsheet.getSheetByName('Form Responses 1');
-    const volunteersSheet = spreadsheet.getSheetByName('Form Responses 2');
+    const allSheets = spreadsheet.getSheets();
+    
+    console.log('Available sheets:');
+    allSheets.forEach(sheet => {
+      console.log(`- ${sheet.getName()}`);
+    });
+    
+    // Try to find the requests sheet with multiple possible names
+    let requestsSheet = null;
+    const possibleRequestNames = ['Form Responses 1', 'Form responses 1', 'Responses', 'Help Requests', 'Requests'];
+    
+    for (let name of possibleRequestNames) {
+      requestsSheet = spreadsheet.getSheetByName(name);
+      if (requestsSheet) {
+        console.log(`Found requests sheet: ${name}`);
+        break;
+      }
+    }
+    
+    // Try to find the volunteers sheet with multiple possible names  
+    let volunteersSheet = null;
+    const possibleVolunteerNames = ['Form Responses 2', 'Form responses 2', 'Volunteers', 'Volunteer Responses'];
+    
+    for (let name of possibleVolunteerNames) {
+      volunteersSheet = spreadsheet.getSheetByName(name);
+      if (volunteersSheet) {
+        console.log(`Found volunteers sheet: ${name}`);
+        break;
+      }
+    }
     
     if (!requestsSheet) {
-      throw new Error('Could not find requests sheet (Form Responses 1)');
+      // If no requests sheet found, use the first sheet that has data
+      requestsSheet = allSheets.find(sheet => {
+        const data = sheet.getDataRange().getValues();
+        return data.length > 1; // Has header + at least one row
+      });
+      
+      if (requestsSheet) {
+        console.log(`Using first sheet with data: ${requestsSheet.getName()}`);
+      } else {
+        throw new Error(`Could not find any sheet with data. Available sheets: ${allSheets.map(s => s.getName()).join(', ')}`);
+      }
     }
     
     // Process requests data
@@ -446,5 +484,42 @@ function testScript() {
   } catch (error) {
     console.error('Test failed:', error);
     sendUpdateNotification('error', { error: error.message });
+  }
+}
+
+/**
+ * DEBUG FUNCTION - LIST ALL SHEETS
+ * Use this to find the exact names of your sheets
+ */
+function listAllSheets() {
+  try {
+    const spreadsheet = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const sheets = spreadsheet.getSheets();
+    
+    console.log('=== AVAILABLE SHEETS IN SPREADSHEET ===');
+    sheets.forEach((sheet, index) => {
+      const data = sheet.getDataRange().getValues();
+      const rowCount = data.length;
+      const colCount = data[0] ? data[0].length : 0;
+      
+      console.log(`${index + 1}. "${sheet.getName()}" - ${rowCount} rows x ${colCount} columns`);
+      
+      // Show first few column headers if they exist
+      if (rowCount > 0 && colCount > 0) {
+        const headers = data[0].slice(0, 5); // First 5 headers
+        console.log(`   Headers: ${headers.join(', ')}`);
+      }
+    });
+    console.log('=========================================');
+    
+    return sheets.map(sheet => ({
+      name: sheet.getName(),
+      rows: sheet.getDataRange().getValues().length,
+      cols: sheet.getDataRange().getValues()[0]?.length || 0
+    }));
+    
+  } catch (error) {
+    console.error('Error listing sheets:', error);
+    throw error;
   }
 }
