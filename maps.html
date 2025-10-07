@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗺️ Map Update Tools - Hurricane Aid System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid transparent;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+        }
+        
+        .tool-card.emergency {
+            border-left-color: #e74c3c;
+        }
+        
+        .tool-card.detailed {
+            border-left-color: #3498db;
+        }
+        
+        .tool-card.automated {
+            border-left-color: #27ae60;
+        }
+        
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .emergency .tool-icon { color: #e74c3c; }
+        .detailed .tool-icon { color: #3498db; }
+        .automated .tool-icon { color: #27ae60; }
+        
+        .tool-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .tool-description {
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .tool-features {
+            margin-bottom: 25px;
+        }
+        
+        .tool-features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .tool-features li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .tool-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .tool-button {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .emergency .tool-button {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .emergency .tool-button:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .detailed .tool-button {
+            background: #3498db;
+            color: white;
+        }
+        
+        .detailed .tool-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .automated .tool-button {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .automated .tool-button:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+        
+        .workflow-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .workflow-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .workflow-step {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            line-height: 35px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .step-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .quick-access {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .quick-access h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+        
+        .quick-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .quick-link {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .quick-link:hover {
+            background: white;
+            color: #667eea;
+        }
+        
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            z-index: 1000;
+        }
+        
+        .pulse {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #27ae60;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .workflow-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .status-bar {
+                position: static;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗺️ Map Update Tools</h1>
+            <p>Keep your hurricane aid map current with the latest emergency data</p>
+            <p><small>Three powerful methods to ensure maps never go stale during critical response operations</small></p>
+        </div>
+        
+        <div class="tools-grid">
+            <div class="tool-card emergency">
+                <div class="tool-icon">🚨</div>
+                <div class="tool-title">Quick Emergency Update</div>
+                <div class="tool-description">
+                    When seconds matter! One-click interface designed for crisis response. Opens both your map editor and data sheet instantly.
+                </div>
+                <div class="tool-features">
+                    <ul>
+                        <li>2-click process (map + data)</li>
+                        <li>Keyboard shortcuts (Ctrl+1, Ctrl+2)</li>
+                        <li>Real-time status updates</li>
+                        <li>Emergency-optimized interface</li>
+                        <li>Mobile-friendly design</li>
+                    </ul>
+                </div>
+                <a href="/hurricane-aid-production/quick-update.html" class="tool-button">🚨 Launch Quick Update</a>
+            </div>
+            
+            <div class="tool-card detailed">
+                <div class="tool-icon">📖</div>
+                <div class="tool-title">Step-by-Step Guide</div>
+                <div class="tool-description">
+                    Comprehensive visual guide perfect for training staff and volunteers. Clear instructions with screenshots and tips.
+                </div>
+                <div class="tool-features">
+                    <ul>
+                        <li>Visual step-by-step instructions</li>
+                        <li>Perfect for training new staff</li>
+                        <li>Professional interface</li>
+                        <li>Links to all necessary resources</li>
+                        <li>Mobile-responsive design</li>
+                    </ul>
+                </div>
+                <a href="/hurricane-aid-production/map-updater.html" class="tool-button">📖 View Detailed Guide</a>
+            </div>
+            
+            <div class="tool-card automated">
+                <div class="tool-icon">⚙️</div>
+                <div class="tool-title">Automated Script</div>
+                <div class="tool-description">
+                    Google Apps Script that automatically processes form data and sends email notifications when updates are needed.
+                </div>
+                <div class="tool-features">
+                    <ul>
+                        <li>Automated data processing</li>
+                        <li>Email notifications</li>
+                        <li>Form submission triggers</li>
+                        <li>CSV export generation</li>
+                        <li>Error handling & logging</li>
+                    </ul>
+                </div>
+                <a href="/hurricane-aid-production/auto-map-update-script.js" class="tool-button" download>⚙️ Download Script</a>
+            </div>
+        </div>
+        
+        <div class="workflow-section">
+            <div class="workflow-title">🔄 How Map Updates Work</div>
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Forms Collect Data</div>
+                    <div class="step-desc">Google Forms automatically save responses to Google Sheets in real-time</div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Choose Update Method</div>
+                    <div class="step-desc">Use quick update, guided steps, or automated script based on urgency</div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Re-import to Map</div>
+                    <div class="step-desc">Google My Maps imports fresh data from sheets, keeping existing markers</div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Map Goes Live</div>
+                    <div class="step-desc">Updated map instantly available to public with all current emergency data</div>
+                </div>
+            </div>
+            <div style="text-align: center; color: #666; font-style: italic;">
+                Updates typically take 2-5 minutes and preserve all existing map styling and layers
+            </div>
+        </div>
+        
+        <div class="quick-access">
+            <h3>📎 Quick Access Links</h3>
+            <div class="quick-links">
+                <a href="https://www.google.com/maps/d/edit?mid=1v6UC3BeHWFW33yavxoPRe2qlirnxwSc&usp=sharing" 
+                   target="_blank" class="quick-link">🗺️ Map Editor</a>
+                <a href="https://docs.google.com/spreadsheets/d/1-pbTqLMntCFuJ_ydOfmW7F_qyFDZPjZy4LCv8YE5tMo/edit" 
+                   target="_blank" class="quick-link">📊 Data Sheets</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe0wAHtZdd9h_nRWqQJ4k7uQLXp0rfmhWT1FF-mbvjHx9ttBQ/viewform" 
+                   target="_blank" class="quick-link">📝 Help Requests</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-QMsgMyR5ZuKwQ2ABZ6_vZ_BhDh3Mx55br6os7mNs40EWeQ/viewform" 
+                   target="_blank" class="quick-link">👥 Volunteers</a>
+                <a href="/hurricane-aid-production/aid.html" class="quick-link">🏠 Main Portal</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="status-bar">
+        <span class="pulse"></span>
+        All map update tools operational • <span id="timestamp"></span>
+    </div>
+
+    <script>
+        // Update timestamp
+        function updateTimestamp() {
+            document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        }
+        
+        // Initialize and update every 30 seconds
+        updateTimestamp();
+        setInterval(updateTimestamp, 30000);
+        
+        // Track tool usage
+        document.querySelectorAll('.tool-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const toolType = this.textContent.trim();
+                console.log(`Map tool accessed: ${toolType} at ${new Date().toISOString()}`);
+            });
+        });
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case '1':
+                        e.preventDefault();
+                        window.open('/hurricane-aid-production/quick-update.html');
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        window.open('/hurricane-aid-production/map-updater.html');
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        window.open('/hurricane-aid-production/auto-map-update-script.js');
+                        break;
+                }
+            }
+        });
+        
+        console.log('Map Update Tools Portal loaded');
+        console.log('Keyboard shortcuts: Ctrl+1 (Quick Update), Ctrl+2 (Guide), Ctrl+3 (Script)');
+    </script>
+</body>
+</html>
