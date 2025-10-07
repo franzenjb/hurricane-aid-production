@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hurricane Aid - Map Update Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #e74c3c;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .step {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .step-title {
+            display: inline-block;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .step-content {
+            margin-left: 45px;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #3498db;
+        }
+        
+        .btn-secondary:hover {
+            background: #2980b9;
+        }
+        
+        .btn-success {
+            background: #27ae60;
+        }
+        
+        .btn-success:hover {
+            background: #2ecc71;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .quick-link {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #495057;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-link:hover {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+        
+        .quick-link-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9rem;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .quick-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗺️ Map Update Tool</h1>
+            <p>Keep your hurricane aid map current with latest requests</p>
+        </div>
+        
+        <div class="content">
+            <div class="alert alert-info">
+                <strong>📋 Quick Update Process:</strong> This tool guides you through updating your emergency map with the latest help requests and resource changes. Takes about 2 minutes!
+            </div>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <span class="step-title">Open Your Emergency Map</span>
+                <div class="step-content">
+                    Click the button below to open your Google My Map in a new tab. You'll need edit access to update the map.
+                    <div class="button-container">
+                        <a href="https://www.google.com/maps/d/edit?mid=1v6UC3BeHWFW33yavxoPRe2qlirnxwSc&usp=sharing" 
+                           target="_blank" class="btn btn-secondary">
+                            🗺️ Open Emergency Map Editor
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <span class="step-title">Access Your Data Source</span>
+                <div class="step-content">
+                    Open your Google Sheet with the latest form responses. This contains all new help requests and volunteer registrations.
+                    <div class="button-container">
+                        <a href="https://docs.google.com/spreadsheets/d/1-pbTqLMntCFuJ_ydOfmW7F_qyFDZPjZy4LCv8YE5tMo/edit" 
+                           target="_blank" class="btn btn-secondary">
+                            📊 Open Data Sheet
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <span class="step-title">Update the Map Layer</span>
+                <div class="step-content">
+                    In your map editor:
+                    <br>• Find your existing data layer (usually called "Form Responses" or similar)
+                    <br>• Click the <strong>three dots ⋮</strong> next to the layer name
+                    <br>• Select <strong>"Replace data"</strong> or <strong>"Import"</strong>
+                    <br>• Choose your Google Sheet as the source
+                    <br>• Confirm the address column for mapping locations
+                </div>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <span class="step-title">Verify Updates</span>
+                <div class="step-content">
+                    Check that new markers appear on your map and existing ones are updated. The map will now show:
+                    <br>• All current help requests
+                    <br>• Latest resource status updates
+                    <br>• New volunteer locations
+                </div>
+            </div>
+            
+            <div class="alert alert-warning">
+                <strong>⏱️ How Often to Update:</strong> During active emergencies, update the map every 2-4 hours or when you receive urgent requests. For routine operations, daily updates are sufficient.
+            </div>
+            
+            <div class="instructions">
+                <h3>🚀 Pro Tip: Faster Updates</h3>
+                <p>To make updates even faster, bookmark both the map editor and data sheet. You can complete the entire update process in under 2 minutes once you're familiar with the steps.</p>
+            </div>
+            
+            <div class="button-container">
+                <a href="#" onclick="window.location.reload()" class="btn btn-success">
+                    🔄 Refresh This Page
+                </a>
+                <a href="/" class="btn">
+                    🏠 Back to Main Portal
+                </a>
+            </div>
+            
+            <div class="quick-links">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe0wAHtZdd9h_nRWqQJ4k7uQLXp0rfmhWT1FF-mbvjHx9ttBQ/viewform" 
+                   target="_blank" class="quick-link">
+                    <div class="quick-link-icon">📝</div>
+                    <div>Help Request Form</div>
+                </a>
+                
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-QMsgMyR5ZuKwQ2ABZ6_vZ_BhDh3Mx55br6os7mNs40EWeQ/viewform" 
+                   target="_blank" class="quick-link">
+                    <div class="quick-link-icon">👥</div>
+                    <div>Volunteer Form</div>
+                </a>
+                
+                <a href="https://www.google.com/maps/d/view?mid=1v6UC3BeHWFW33yavxoPRe2qlirnxwSc" 
+                   target="_blank" class="quick-link">
+                    <div class="quick-link-icon">🗺️</div>
+                    <div>Public Map View</div>
+                </a>
+                
+                <a href="https://docs.google.com/spreadsheets/d/1-pbTqLMntCFuJ_ydOfmW7F_qyFDZPjZy4LCv8YE5tMo/edit" 
+                   target="_blank" class="quick-link">
+                    <div class="quick-link-icon">📊</div>
+                    <div>Data Dashboard</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Map Update Tool loaded');
+            
+            // Track button clicks for analytics
+            document.querySelectorAll('.btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const buttonText = this.textContent.trim();
+                    console.log(`Button clicked: ${buttonText}`);
+                });
+            });
+        });
+        
+        // Add a simple "last updated" indicator
+        function showLastUpdated() {
+            const now = new Date().toLocaleString();
+            const alertDiv = document.querySelector('.alert-info');
+            if (alertDiv) {
+                alertDiv.innerHTML += `<br><small><em>Tool accessed: ${now}</em></small>`;
+            }
+        }
+        
+        // Show when the tool was accessed
+        setTimeout(showLastUpdated, 1000);
+    </script>
+</body>
+</html>
